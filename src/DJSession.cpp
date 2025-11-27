@@ -79,8 +79,8 @@ int DJSession::load_track_to_controller(const std::string& track_name) {
         stats.errors++;
         return 0;
     }
-
-    std::cout << "[System] Loading track \'" << track_name << "\' to controller...\n";
+    std::cout << "[System] Loading track '" << track_name << "' to controller...\n";
+    std::cout << "yooooooooooooooooooooooooooooooooooo";
     int result = controller_service.loadTrackToCache(*track);
     if(result == 1) stats.cache_hits++;
     if(result == 0) stats.cache_misses++;

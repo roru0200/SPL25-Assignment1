@@ -90,7 +90,6 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
             clone->load();
             clone->analyze_beatgrid();
             playlist.add_track(clone.get());
-            std::cout << "Added '" <<   clone->get_title() <<"' to playlist '"<< playlist_name << "'\n";
             clone.release();
         }
     }

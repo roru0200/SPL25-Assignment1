@@ -69,10 +69,9 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
         if(auto_sync && can_mix_tracks(ptr)) {
             sync_bpm(ptr);
         }
-
         ptr.release();
         decks[target_deck] = cloned;
-        cloned = nullptr;
+        std::cout<< "yoooooooooooooooooooooooooooooooo\n"; 
 
         std::cout << "[Load Complete] \"" << cloned->get_title() << "\" is now loaded on deck " << target_deck << "\n";
         std::cout << "[Unload] Unloading previous deck " << active_deck << " (" << cloned->get_title() << ")\n";
