@@ -61,5 +61,5 @@ double WAVTrack::get_quality_score() const {
 PointerWrapper<AudioTrack> WAVTrack::clone() const {
     // TODO: Implement the clone method
     WAVTrack* clone = new WAVTrack(*this); // the additonal fields are all primitive so the default is fine
-    return PointerWrapper<AudioTrack>(nullptr); // Replace with your implementation
+    return PointerWrapper<AudioTrack>(clone);
 }
