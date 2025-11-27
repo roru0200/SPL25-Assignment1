@@ -16,6 +16,20 @@ DJLibraryService::DJLibraryService(const Playlist& playlist)
 void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>& library_tracks) {
     //Todo: Implement buildLibrary method
     std::cout << "TODO: Implement DJLibraryService::buildLibrary method\n"<< library_tracks.size() << " tracks to be loaded into library.\n";
+    for(SessionConfig::TrackInfo track : library_tracks) {
+        AudioTrack* song;
+
+        if(track.type == "WAV") {
+            song = new WAVTrack(track.title, track.artists, track.duration_seconds, track.bpm, track.extra_param1, track.extra_param2);
+        }
+
+        if(track.type == "MP3") {
+            song = new MP3Track(track.title, track.artists, track.duration_seconds, track.bpm, track.extra_param1, track.extra_param2);
+        }
+
+        library.push_back(song);
+    }
+    std::cout << "[INFO] Track library built: " << library.size() << " tracks loaded\n";
 }
 
 /**
@@ -60,6 +74,7 @@ AudioTrack* DJLibraryService::findTrack(const std::string& track_title) {
 void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name, 
                                                const std::vector<int>& track_indices) {
     // Your implementation here
+    std::cout << "[INFO] Loading playlist: " << playlist_name << "\n";
     // For now, add a placeholder to fix the linker error
     (void)playlist_name;  // Suppress unused parameter warning
     (void)track_indices;  // Suppress unused parameter warning
