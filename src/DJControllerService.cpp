@@ -20,8 +20,8 @@ int DJControllerService::loadTrackToCache(AudioTrack& track) {
     AudioTrack* clone = clone_ptr.release();
 
     if(!clone) {
-        std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone";
-        return 1;
+        std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone\n";
+        return 0;
     }
 
     clone->load();
