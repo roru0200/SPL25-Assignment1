@@ -36,15 +36,20 @@ AudioTrack::~AudioTrack() {
     std::cout << "AudioTrack destructor called for: " << title << std::endl;
     #endif
     // Your code here...
+    delete[] waveform_data; // deleting the whole array, not just the data on its first address. the other fields are primitive so no need for manual deletion
 }
 
-AudioTrack::AudioTrack(const AudioTrack& other)
-{
+AudioTrack::AudioTrack(const AudioTrack& other): title(other.title), artists(other.artists), duration_seconds(other.duration_seconds), bpm(other.bpm), 
+      waveform_size(other.waveform_size) {
     // TODO: Implement the copy constructor
     #ifdef DEBUG
     std::cout << "AudioTrack copy constructor called for: " << other.title << std::endl;
     #endif
     // Your code here...
+    waveform_data = new double[waveform_size];
+    for (size_t i = 0; i < waveform_size; ++i) {
+        waveform_data[i] = other.waveform_data[i]; // deep copying the waveform array    
+    }
 }
 
 AudioTrack& AudioTrack::operator=(const AudioTrack& other) {
@@ -53,15 +58,31 @@ AudioTrack& AudioTrack::operator=(const AudioTrack& other) {
     std::cout << "AudioTrack copy assignment called for: " << other.title << std::endl;
     #endif
     // Your code here...
+     title = other.title;
+    artists = other.artists;
+    duration_seconds = other.duration_seconds;
+    bpm = other.bpm;
+    waveform_size = other.waveform_size;
+
+    delete[] waveform_data;
+    waveform_data = new double[waveform_size]; // creating a new array after deleting the old, to make sure the arrays are of the same size when preforming the deep copy
+
+    for (size_t i = 0; i < waveform_size; ++i) {
+        waveform_data[i] = other.waveform_data[i]; // deep copying the waveform array
+    }
+    
     return *this;
 }
 
-AudioTrack::AudioTrack(AudioTrack&& other) noexcept {
+AudioTrack::AudioTrack(AudioTrack&& other) noexcept : title(std::move(other.title)), artists(std::move(other.artists)), duration_seconds(other.duration_seconds), bpm(other.bpm), 
+      waveform_size(other.waveform_size), waveform_data(other.waveform_data){
     // TODO: Implement the move constructor
     #ifdef DEBUG
     std::cout << "AudioTrack move constructor called for: " << other.title << std::endl;
     #endif
     // Your code here...
+    other.waveform_data = nullptr; //nullifying the object that was "robbed" of its data
+    other.waveform_size = 0; // making sure the field is consistent with reality after the thievery
 }
 
 AudioTrack& AudioTrack::operator=(AudioTrack&& other) noexcept {
@@ -71,6 +92,15 @@ AudioTrack& AudioTrack::operator=(AudioTrack&& other) noexcept {
     std::cout << "AudioTrack move assignment called for: " << other.title << std::endl;
     #endif
     // Your code here...
+    title = std::move(other.title);
+    artists = std::move(other.artists);
+    duration_seconds = other.duration_seconds;
+    bpm = other.bpm;
+    waveform_size = other.waveform_size;
+    waveform_data = other.waveform_data;
+
+    other.waveform_data = nullptr; //nullifying the object that was "robbed" of its data
+    other.waveform_size = 0; // making sure the field is consistent with reality after the thievery
     return *this;
 }
 
