@@ -11,7 +11,25 @@ DJControllerService::DJControllerService(size_t cache_size)
  */
 int DJControllerService::loadTrackToCache(AudioTrack& track) {
     // Your implementation here 
-    return 0; // Placeholder
+    if(cache.contains(track.get_title())) {
+        cache.get(track.get_title());
+        return 1;
+    }
+
+    PointerWrapper<AudioTrack> clone_ptr = track.clone();
+    AudioTrack* clone = clone_ptr.release();
+
+    if(!clone) {
+        std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone";
+        return;
+    }
+
+    clone->load();
+    clone->analyze_beatgrid();
+    bool eviction = cache.put(PointerWrapper<AudioTrack>(clone)); ///
+
+    if (eviction) return -1;
+    return 0;
 }
 
 void DJControllerService::set_cache_size(size_t new_size) {
@@ -27,7 +45,9 @@ void DJControllerService::displayCacheStatus() const {
 /**
  * TODO: Implement getTrackFromCache method
  */
-AudioTrack* DJControllerService::getTrackFromCache(const std::string& track_title) {
+AudioTrack* DJControllerService::getTrackFromCache(const std::string& track_title) { // this method DOES NOT transfer ownership
     // Your implementation here
-    return nullptr; // Placeholder
+    AudioTrack* ptr = cache.get(track_title);
+    if (ptr) return ptr;
+    return nullptr;
 }
