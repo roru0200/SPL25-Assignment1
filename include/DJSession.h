@@ -120,4 +120,19 @@ private:
      * @brief Print final session summary with statistics
      */
     void print_session_summary() const;
+
+    //helper function to load playlist
+    void proccess_playlist(std::string playlist_name);
+
+    //helper function to rest stats
+    void reset_stats(){
+        stats.tracks_processed = 0;
+        stats.cache_hits = 0;
+        stats.cache_misses = 0;
+        stats.cache_evictions = 0;
+        stats.deck_loads_a = 0;
+        stats.deck_loads_b = 0;
+        stats.transitions = 0;
+        stats.errors = 0;
+    };
 };
