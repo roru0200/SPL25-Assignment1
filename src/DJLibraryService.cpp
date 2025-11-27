@@ -110,6 +110,7 @@ std::vector<std::string> DJLibraryService::getTrackTitles() const {
 
     for (AudioTrack* track : tracks) {
         titles.push_back(track->get_title());
+        track = nullptr; //prevents data loss, the playlist still owns the tracks
     }
 
     return titles;
