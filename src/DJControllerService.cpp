@@ -21,7 +21,7 @@ int DJControllerService::loadTrackToCache(AudioTrack& track) {
 
     if(!clone) {
         std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone";
-        return;
+        return 1;
     }
 
     clone->load();
