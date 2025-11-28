@@ -48,6 +48,7 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
 
     if(decks[0] == nullptr && decks[1] == nullptr) {
         decks[0] = cloned;
+        ptr.release(); //added line
         cloned = nullptr;
         deck_loaded = 0;
         active_deck = 0;
@@ -71,7 +72,6 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
         }
         ptr.release();
         decks[target_deck] = cloned;
-        std::cout<< "yoooooooooooooooooooooooooooooooo\n"; 
 
         std::cout << "[Load Complete] \"" << cloned->get_title() << "\" is now loaded on deck " << target_deck << "\n";
         std::cout << "[Unload] Unloading previous deck " << active_deck << " (" << cloned->get_title() << ")\n";

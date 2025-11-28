@@ -17,16 +17,15 @@ int DJControllerService::loadTrackToCache(AudioTrack& track) {
     }
     
     PointerWrapper<AudioTrack> clone_ptr = track.clone();
-    AudioTrack* clone = clone_ptr.release();
 
-    if(!clone) {
+    if(!clone_ptr) {
         std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone\n";
         return 0;
     }
     
-    clone->load();
-    clone->analyze_beatgrid();
-    bool eviction = cache.put(PointerWrapper<AudioTrack>(clone)); ///
+    clone_ptr->load();
+    clone_ptr->analyze_beatgrid();
+    bool eviction = cache.put(std::move(clone_ptr)); ///
 
     if (eviction) return -1;
     return 0;

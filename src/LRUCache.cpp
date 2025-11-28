@@ -82,12 +82,21 @@ size_t LRUCache::findSlot(const std::string& track_id) const {
 size_t LRUCache::findLRUSlot() const {
     if (slots.empty()) return max_size;
 
-    uint64_t lru_val = slots[0].getLastAccessTime();
-    for (int i = 1; i<slots.size();++i) {
-        if (lru_val > slots[i].getLastAccessTime()) lru_val = slots[i].getLastAccessTime();
+    size_t lru_index = 0;                  
+    uint64_t min_time = UINT64_MAX;
+    
+    for (size_t i = 0; i < max_size; ++i) {
+        if (slots[i].isOccupied()) {
+            if (slots[i].getLastAccessTime() < min_time) {
+                min_time = slots[i].getLastAccessTime();
+                lru_index = i;
+            }
+        }
     }
 
-    return lru_val;
+    if (min_time == UINT64_MAX) return max_size;
+
+    return lru_index;
 }
 
 size_t LRUCache::findEmptySlot() const {
