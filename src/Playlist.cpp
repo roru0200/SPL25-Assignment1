@@ -23,6 +23,97 @@ Playlist::~Playlist() {
     head = nullptr;
 }
 
+//Copy Constructor
+Playlist::Playlist(const Playlist& other): head(nullptr), playlist_name(other.playlist_name), track_count(0){
+    if(other.head != nullptr){
+        PointerWrapper<AudioTrack> clone = other.head->track->clone();
+        head = new PlaylistNode(clone.release());
+        PlaylistNode* current_this = head;
+        PlaylistNode* current_other = other.head->next;
+        track_count++;
+
+        while(current_other != nullptr){
+            clone = current_other->track->clone();
+            PlaylistNode* temp = new PlaylistNode(clone.release());
+            current_this->next = temp;
+            track_count++;
+            current_this = current_this->next;
+            current_other = current_other->next;
+            
+        }
+    }
+}
+
+//Copy Assignment Operator
+Playlist& Playlist::operator=(const Playlist& other) {
+    if(this == &other) return *this;
+
+    PlaylistNode* current = head;
+    while (current != nullptr){
+        PlaylistNode* temp = current->next;
+        delete current->track;
+        delete current;
+        track_count--;
+        current = temp;
+    }
+    head = nullptr;
+    track_count = 0;
+    playlist_name = other.playlist_name;
+
+    if(other.head != nullptr){
+        PointerWrapper<AudioTrack> clone = other.head->track->clone();
+        head = new PlaylistNode(clone.release());
+        PlaylistNode* current_this = head;
+        PlaylistNode* current_other = other.head->next;
+        track_count++;
+
+        while(current_other != nullptr){
+            clone = current_other->track->clone();
+            PlaylistNode* temp = new PlaylistNode(clone.release());
+            current_this->next = temp;
+            track_count++;
+            current_this = current_this->next;
+            current_other = current_other->next;
+            
+        }
+    }
+    return *this;
+}
+
+
+//Move Constructor
+Playlist::Playlist(Playlist&& other) noexcept : 
+    head(std::move(other.head)), playlist_name(std::move(other.playlist_name)), track_count(other.track_count){
+    
+    other.head = nullptr;
+    other.track_count = 0;
+}
+
+
+//Move Assignment Operator
+Playlist& Playlist::operator=(Playlist&& other) noexcept{
+
+    if(this == &other) return *this;
+
+    PlaylistNode* current = head;
+    while (current != nullptr){
+        PlaylistNode* temp = current->next;
+        delete current->track;
+        delete current;
+        track_count--;
+        current = temp;
+    }
+    
+    playlist_name = std::move(other.playlist_name);
+    head = std::move(other.head);
+    track_count = other.track_count;
+
+    other.head = nullptr;
+    other.track_count = 0;
+    
+    return *this;
+}
+
 void Playlist::add_track(AudioTrack* track) {
     if (!track) {
         std::cout << "[Error] Cannot add null track to playlist" << std::endl;

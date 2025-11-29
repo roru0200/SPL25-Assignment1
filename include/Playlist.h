@@ -40,6 +40,18 @@ public:
      */
     ~Playlist();
 
+    //Rule of 5 implementations
+    //Copy functions
+    Playlist(const Playlist& other);
+
+    Playlist& operator=(const Playlist& other);
+
+    //Move functions
+    Playlist(Playlist&& other) noexcept;
+
+    Playlist& operator=(Playlist&& other) noexcept;
+
+
     /**
      * Add a track to the playlist
      * @param track Pointer to AudioTrack to add

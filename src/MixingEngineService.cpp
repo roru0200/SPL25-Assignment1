@@ -37,21 +37,20 @@ MixingEngineService::~MixingEngineService() {
  */
 int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
     // Your implementation here
-    int deck_loaded = -1;
     PointerWrapper<AudioTrack> ptr = track.clone();
     AudioTrack* cloned = ptr.get(); 
 
     if(!cloned) {
-        std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone";
+        std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone\n";
         return -1;
     }
 
     if(decks[0] == nullptr && decks[1] == nullptr) {
         decks[0] = cloned;
-        ptr.release(); //added line
+        ptr.release();
         cloned = nullptr;
-        deck_loaded = 0;
         active_deck = 0;
+        return 0;
     }
 
     else {
@@ -76,14 +75,13 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
         std::cout << "[Load Complete] \"" << cloned->get_title() << "\" is now loaded on deck " << target_deck << "\n";
         std::cout << "[Unload] Unloading previous deck " << active_deck << " (" << cloned->get_title() << ")\n";
 
-        delete decks[active_deck];
-        decks[active_deck] = nullptr;
+        //delete decks[active_deck];
+        //decks[active_deck] = nullptr;
         active_deck = target_deck;
         std::cout << "[Active Deck] Switched to deck " << target_deck << "\n";
 
         return target_deck;
     }
-
     return -1;
 }
 
