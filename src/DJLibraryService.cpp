@@ -77,7 +77,7 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
     Playlist new_playlist(playlist_name);
     playlist = new_playlist;
     for (int i : track_indices) {
-        if (i < 0 || i >= static_cast<int>(library.size())){ //casting by compiler warning
+        if (i < 0 || i > static_cast<int>(library.size())){ //casting by compiler warning
             std::cout << "[WARNING] Invalid track index: "<< i <<"\n";
         }
         else {
@@ -95,8 +95,8 @@ void DJLibraryService::loadPlaylistFromIndices(const std::string& playlist_name,
     }
     std::cout << "[INFO] Playlist loaded: " << playlist_name << " ("<< playlist.get_track_count() << " tracks)\n";
     // For now, add a placeholder to fix the linker error
-    (void)playlist_name;  // Suppress unused parameter warning
-    (void)track_indices;  // Suppress unused parameter warning
+    //(void)playlist_name;  // Suppress unused parameter warning
+    //(void)track_indices;  // Suppress unused parameter warning
 }
 /**
  * TODO: Implement getTrackTitles method

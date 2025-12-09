@@ -165,19 +165,26 @@ void DJSession::simulate_dj_performance() {
             else proccess_playlist(selection);
         }
     }
+    reset_stats();
     std::cout << "Session cancelled by user or all playlists played.\n";
 }
 
 void DJSession::proccess_playlist(std::string playlist_name){
    if(load_playlist(playlist_name)) {
+        std::sort(playlist_name.begin(), playlist_name.end());
+        std::reverse(track_titles.begin(), track_titles.end());
         for(std::string current_track : track_titles) {
             std::cout << "\n–- Processing: " << current_track<< " –-\n";
             stats.tracks_processed++;
             load_track_to_controller(current_track);
+            controller_service.displayCacheStatus();
             load_track_to_mixer_deck(current_track);
+            mixing_service.displayDeckStatus();
         }
         print_session_summary();
-        reset_stats();
+   }
+   else{
+
    }
 }
 
