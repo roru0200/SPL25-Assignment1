@@ -20,7 +20,7 @@ MixingEngineService::MixingEngineService()
  */
 MixingEngineService::~MixingEngineService() {
     // Your implementation here
-    std::cout << "[MixingEngineService] Cleaning up decks....";
+    std::cout << "[MixingEngineService] Cleaning up decks....\n";
     for(AudioTrack* track : decks) {
         if(track != nullptr) {
             delete track;
@@ -146,3 +146,4 @@ void MixingEngineService::sync_bpm(const PointerWrapper<AudioTrack>& track) cons
         std::cout << "[Sync BPM] Syncing BPM from " << original_bpm << " to " << average_bpm << "\n";
     }
 }
+
