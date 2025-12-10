@@ -15,7 +15,7 @@ DJLibraryService::DJLibraryService(const Playlist& playlist)
  */
 void DJLibraryService::buildLibrary(const std::vector<SessionConfig::TrackInfo>& library_tracks) {
     //Todo: Implement buildLibrary method
-    std::cout << "TODO: Implement DJLibraryService::buildLibrary method\n"<< library_tracks.size() << " tracks to be loaded into library.\n";
+    //std::cout << "TODO: Implement DJLibraryService::buildLibrary method\n"<< library_tracks.size() << " tracks to be loaded into library.\n";
     for(SessionConfig::TrackInfo track : library_tracks) {
         AudioTrack* song;
 
@@ -114,3 +114,4 @@ std::vector<std::string> DJLibraryService::getTrackTitles() const {
 
     return titles;
 }
+
